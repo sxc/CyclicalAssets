@@ -33,14 +33,21 @@ class Person: CustomStringConvertible {
     }
     
     func takeOwnership(of asset: Asset) {
-        asset.owner = self
-        assets.append(asset)
+
+
         
-        accountant.gained(asset)
+        accountant.gained(asset) {
+            asset.owner = self
+            assets.append(asset)
+        }
     }
     
     func netWorthDidChange(to netWorth: Double) {
         print("The net worth of \(self) is now \(netWorth)")
+    }
+    
+    func useNetWorthChangedHandler(handler: @escaping (Double) -> Void) {
+        accountant.netWorthChangedHandler = handler
     }
     
 }
